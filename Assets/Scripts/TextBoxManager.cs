@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.UIElements;
 
 public class TextBoxManager : MonoBehaviour
 {
@@ -13,25 +12,29 @@ public class TextBoxManager : MonoBehaviour
     public Text theText;
 
     public TextAsset textFile;
-    private string[] textLines;
+    public string[] textLines;
 
-    private int currentLine = 0;
-    private int endAtLine;
+    public int currentLine;
+    public int endAtLine;
 
     private bool isTyping = false;
     private bool cancelTyping = false;
     private bool wait = false;
 
+<<<<<<< HEAD
     private float typeSpeed = 2.5f;
+=======
+    public float typeSpeed;
+>>>>>>> parent of 7fbe270... Text scroll basic implimentation
 
     // Start is called before the first frame update
     void Start()
     {
         if(textFile != null)
         { 
-            textLines = textFile.text.Split('\n');
+            textLines = (textFile.text.Split('\n'));
         }
-        //if(endAtLine == 0)
+        if(endAtLine == 0)
         {
             endAtLine = textLines.Length - 1;
         }
@@ -39,6 +42,7 @@ public class TextBoxManager : MonoBehaviour
 
     void Update()
     {
+<<<<<<< HEAD
         if (!isTyping && !wait && currentLine <= endAtLine) 
         {
             if (textLines[currentLine] == "<wait>") 
@@ -64,11 +68,13 @@ public class TextBoxManager : MonoBehaviour
             textBox.SetActive(false);
         }*/
         //theText.text = textLines[currentLine];
+=======
+        theText.text = textLines[currentLine];
+>>>>>>> parent of 7fbe270... Text scroll basic implimentation
 
-        //if(Input.GetKeyDown(KeyCode.Return))
+        if(Input.GetKeyDown(KeyCode.Return))
         {
-            
-            /*if(!isTyping)
+            if(!isTyping)
             {
                 currentLine += 1;
 
@@ -78,7 +84,7 @@ public class TextBoxManager : MonoBehaviour
                 }
                 else
                 {
-                    StartCoroutine(TextScroll(textLines[currentLine]));
+                    StartCoroutine(TextScroll(textLine[currentLine]));
                 }
 
             }
@@ -86,16 +92,22 @@ public class TextBoxManager : MonoBehaviour
             else if(isTyping && !cancelTyping)
             {
                 cancelTyping = true;
-            }*/
+            }
         }
+<<<<<<< HEAD
+=======
+
+       
+>>>>>>> parent of 7fbe270... Text scroll basic implimentation
     }
 
     private IEnumerator TextScroll (string lineofText)
     {
         int letter = 0;
-        //theText.text = "";
+        theText.text = "";
         isTyping = true;
         cancelTyping = false;
+<<<<<<< HEAD
         while (isTyping && !cancelTyping) 
         {
             if (letter >= lineofText.Length) {
@@ -111,6 +123,9 @@ public class TextBoxManager : MonoBehaviour
         }
         theText.text = theText.text + '\n';
         isTyping = false;
+=======
+        while(isTyping  && !cancelTyping)
+>>>>>>> parent of 7fbe270... Text scroll basic implimentation
     }
     private IEnumerator PauseScroll() 
     {
