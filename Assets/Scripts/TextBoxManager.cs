@@ -21,13 +21,7 @@ public class TextBoxManager : MonoBehaviour
     private bool cancelTyping = false;
     private bool wait = false;
 
-<<<<<<< HEAD
-    private float typeSpeed = 2.5f;
-=======
-    public float typeSpeed;
->>>>>>> parent of 7fbe270... Text scroll basic implimentation
-
-    // Start is called before the first frame update
+    private float typeSpeed = 0.2f;
     void Start()
     {
         if(textFile != null)
@@ -42,7 +36,6 @@ public class TextBoxManager : MonoBehaviour
 
     void Update()
     {
-<<<<<<< HEAD
         if (!isTyping && !wait && currentLine <= endAtLine) 
         {
             if (textLines[currentLine] == "<wait>") 
@@ -66,11 +59,8 @@ public class TextBoxManager : MonoBehaviour
         }
         /*if (currentLine > endAtLine) {
             textBox.SetActive(false);
-        }*/
+        }
         //theText.text = textLines[currentLine];
-=======
-        theText.text = textLines[currentLine];
->>>>>>> parent of 7fbe270... Text scroll basic implimentation
 
         if(Input.GetKeyDown(KeyCode.Return))
         {
@@ -93,12 +83,7 @@ public class TextBoxManager : MonoBehaviour
             {
                 cancelTyping = true;
             }
-        }
-<<<<<<< HEAD
-=======
-
-       
->>>>>>> parent of 7fbe270... Text scroll basic implimentation
+        }*/
     }
 
     private IEnumerator TextScroll (string lineofText)
@@ -107,7 +92,6 @@ public class TextBoxManager : MonoBehaviour
         theText.text = "";
         isTyping = true;
         cancelTyping = false;
-<<<<<<< HEAD
         while (isTyping && !cancelTyping) 
         {
             if (letter >= lineofText.Length) {
@@ -123,9 +107,6 @@ public class TextBoxManager : MonoBehaviour
         }
         theText.text = theText.text + '\n';
         isTyping = false;
-=======
-        while(isTyping  && !cancelTyping)
->>>>>>> parent of 7fbe270... Text scroll basic implimentation
     }
     private IEnumerator PauseScroll() 
     {
