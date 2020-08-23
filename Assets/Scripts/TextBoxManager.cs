@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 public class TextBoxManager : MonoBehaviour
 {
@@ -11,24 +12,24 @@ public class TextBoxManager : MonoBehaviour
     public Text theText;
 
     public TextAsset textFile;
-    public string[] textLines;
+    private string[] textLines;
 
-    public int currentLine;
-    public int endAtLine;
+    private int currentLine = 0;
+    private int endAtLine;
 
     private bool isTyping = false;
     private bool cancelTyping = false;
 
-    public float typeSpeed;
+    public float typeSpeed = 0.8f;
 
     // Start is called before the first frame update
     void Start()
     {
         if(textFile != null)
         { 
-            textLines = (textFile.text.Split('\n'));
+            textLines = textFile.text.Split('\n');
         }
-        if(endAtLine == 0)
+        //if(endAtLine == 0)
         {
             endAtLine = textLines.Length - 1;
         }
@@ -36,11 +37,20 @@ public class TextBoxManager : MonoBehaviour
 
     void Update()
     {
-        theText.text = textLines[currentLine];
-
-        if(Input.GetKeyDown(KeyCode.Return))
+        if (!isTyping && currentLine <= endAtLine) 
         {
-            if(!isTyping)
+            StartCoroutine(TextScroll(textLines[currentLine]));
+            currentLine++;
+        }
+        /*if (currentLine > endAtLine) {
+            textBox.SetActive(false);
+        }*/
+        //theText.text = textLines[currentLine];
+
+        //if(Input.GetKeyDown(KeyCode.Return))
+        {
+            
+            /*if(!isTyping)
             {
                 currentLine += 1;
 
@@ -50,7 +60,7 @@ public class TextBoxManager : MonoBehaviour
                 }
                 else
                 {
-                    StartCoroutine(TextScroll(textLine[currentLine]));
+                    StartCoroutine(TextScroll(textLines[currentLine]));
                 }
 
             }
@@ -58,18 +68,28 @@ public class TextBoxManager : MonoBehaviour
             else if(isTyping && !cancelTyping)
             {
                 cancelTyping = true;
-            }
+            }*/
         }
+        
 
-       
     }
 
     private IEnumerator TextScroll (string lineofText)
     {
         int letter = 0;
-        theText.text = "";
+        //theText.text = "";
         isTyping = true;
         cancelTyping = false;
-        while(isTyping  && !cancelTyping)
+        while (isTyping && !cancelTyping) 
+        {
+            if (letter >= lineofText.Length) {
+                break;
+            }
+            theText.text = theText.text + lineofText[letter];
+            letter++;    
+            yield return new WaitForSeconds(typeSpeed);
+        }
+        theText.text = theText.text + '\n';
+        isTyping = false;
     }
 }

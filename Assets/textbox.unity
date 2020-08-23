@@ -297,9 +297,7 @@ MonoBehaviour:
   textBox: {fileID: 124376040}
   theText: {fileID: 1563662980}
   textFile: {fileID: 4900000, guid: 446b2d8434100456994f06601f3a2190, type: 3}
-  textLines: []
-  currentLine: 0
-  endAtLine: 3
+  typeSpeed: 0
 --- !u!4 &952973356
 Transform:
   m_ObjectHideFlags: 0
@@ -457,7 +455,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: New Text
+  m_Text: 
 --- !u!222 &1563662981
 CanvasRenderer:
   m_ObjectHideFlags: 0
