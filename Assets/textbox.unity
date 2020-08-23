@@ -298,8 +298,6 @@ MonoBehaviour:
   theText: {fileID: 1563662980}
   textFile: {fileID: 4900000, guid: 446b2d8434100456994f06601f3a2190, type: 3}
   textLines: []
-  currentLine: 0
-  endAtLine: 3
 --- !u!4 &952973356
 Transform:
   m_ObjectHideFlags: 0

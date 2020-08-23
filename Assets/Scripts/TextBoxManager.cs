@@ -14,19 +14,21 @@ public class TextBoxManager : MonoBehaviour
     public TextAsset textFile;
     public string[] textLines;
 
-    public int currentLine;
-    public int endAtLine;
+    private int currentLine;
+    private int endAtLine;
 
     private bool isTyping = false;
     private bool cancelTyping = false;
     private bool wait = false;
 
     private float typeSpeed = 0.2f;
+
     void Start()
     {
+        theText.text = "";
         if(textFile != null)
         { 
-            textLines = (textFile.text.Split('\n'));
+            textLines = textFile.text.Split('\n');
         }
         if(endAtLine == 0)
         {
@@ -38,15 +40,16 @@ public class TextBoxManager : MonoBehaviour
     {
         if (!isTyping && !wait && currentLine <= endAtLine) 
         {
-            if (textLines[currentLine] == "<wait>") 
-            {
+            if (textLines[currentLine] == "<wait>") {
                 wait = true;
             }
             else if(textLines[currentLine] == "<pause>") {
                 StartCoroutine(PauseScroll());
             }
-            else 
-            {
+            else if(textLines[currentLine] == "<end>") {
+                StartCoroutine(EndScroll());
+            }
+            else {
                 StartCoroutine(TextScroll(textLines[currentLine]));
             }
             currentLine++;
@@ -89,7 +92,6 @@ public class TextBoxManager : MonoBehaviour
     private IEnumerator TextScroll (string lineofText)
     {
         int letter = 0;
-        theText.text = "";
         isTyping = true;
         cancelTyping = false;
         while (isTyping && !cancelTyping) 
@@ -105,7 +107,7 @@ public class TextBoxManager : MonoBehaviour
             theText.text += lineofText.Substring(letter);
             cancelTyping = false;
         }
-        theText.text = theText.text + '\n';
+        theText.text += '\n';
         isTyping = false;
     }
     private IEnumerator PauseScroll() 
@@ -113,5 +115,12 @@ public class TextBoxManager : MonoBehaviour
         isTyping = true;
         yield return new WaitForSeconds(2.0f);
         isTyping = false;
+    }
+    private IEnumerator EndScroll() 
+    {
+        while(!Input.GetMouseButtonDown(0)) {
+            yield return null;
+        }
+        theText.text = "";
     }
 }
