@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
@@ -19,8 +20,9 @@ public class TextBoxManager : MonoBehaviour
 
     private bool isTyping = false;
     private bool cancelTyping = false;
+    private bool wait = false;
 
-    public float typeSpeed = 0.8f;
+    private float typeSpeed = 2.5f;
 
     // Start is called before the first frame update
     void Start()
@@ -37,10 +39,26 @@ public class TextBoxManager : MonoBehaviour
 
     void Update()
     {
-        if (!isTyping && currentLine <= endAtLine) 
+        if (!isTyping && !wait && currentLine <= endAtLine) 
         {
-            StartCoroutine(TextScroll(textLines[currentLine]));
+            if (textLines[currentLine] == "<wait>") 
+            {
+                wait = true;
+            }
+            else if(textLines[currentLine] == "<pause>") {
+                StartCoroutine(PauseScroll());
+            }
+            else 
+            {
+                StartCoroutine(TextScroll(textLines[currentLine]));
+            }
             currentLine++;
+        }
+        if(Input.GetKeyDown(KeyCode.Space)) {
+            if (wait) { wait = false; }
+            else if(isTyping) {
+                cancelTyping = true;
+            }
         }
         /*if (currentLine > endAtLine) {
             textBox.SetActive(false);
@@ -70,8 +88,6 @@ public class TextBoxManager : MonoBehaviour
                 cancelTyping = true;
             }*/
         }
-        
-
     }
 
     private IEnumerator TextScroll (string lineofText)
@@ -85,11 +101,21 @@ public class TextBoxManager : MonoBehaviour
             if (letter >= lineofText.Length) {
                 break;
             }
-            theText.text = theText.text + lineofText[letter];
+            theText.text += lineofText[letter];
             letter++;    
             yield return new WaitForSeconds(typeSpeed);
         }
+        if(cancelTyping) {
+            theText.text += lineofText.Substring(letter);
+            cancelTyping = false;
+        }
         theText.text = theText.text + '\n';
+        isTyping = false;
+    }
+    private IEnumerator PauseScroll() 
+    {
+        isTyping = true;
+        yield return new WaitForSeconds(2.0f);
         isTyping = false;
     }
 }
