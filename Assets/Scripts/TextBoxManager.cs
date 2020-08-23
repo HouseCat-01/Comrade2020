@@ -16,11 +16,16 @@ public class TextBoxManager : MonoBehaviour
     public int currentLine;
     public int endAtLine;
 
+    private bool isTyping = false;
+    private bool cancelTyping = false;
+
+    public float typeSpeed;
+
     // Start is called before the first frame update
     void Start()
     {
         if(textFile != null)
-        {
+        { 
             textLines = (textFile.text.Split('\n'));
         }
         if(endAtLine == 0)
@@ -35,14 +40,36 @@ public class TextBoxManager : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.Return))
         {
-            currentLine += 1;
+            if(!isTyping)
+            {
+                currentLine += 1;
+
+                if (currentLine > endAtLine)
+                {
+                    textBox.SetActive(false);
+                }
+                else
+                {
+                    StartCoroutine(TextScroll(textLine[currentLine]));
+                }
+
+            }
+
+            else if(isTyping && !cancelTyping)
+            {
+                cancelTyping = true;
+            }
         }
 
-        if(currentLine > endAtLine)
-        {
-            textBox.SetActive(false);
-        }
-
+       
     }
 
+    private IEnumerator TextScroll (string lineofText)
+    {
+        int letter = 0;
+        theText.text = "";
+        isTyping = true;
+        cancelTyping = false;
+        while(isTyping  && !cancelTyping)
+    }
 }
