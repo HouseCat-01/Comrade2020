@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
+//using System.Text.RegularExpressions;
 
 public class TextBoxManager : MonoBehaviour
 {
@@ -21,7 +22,7 @@ public class TextBoxManager : MonoBehaviour
     private bool cancelTyping = false;
     private bool wait = false;
 
-    private float typeSpeed = 0.2f;
+    private float typeSpeed = 0.1f;
 
     void Start()
     {
@@ -40,6 +41,7 @@ public class TextBoxManager : MonoBehaviour
     {
         if (!isTyping && !wait && currentLine <= endAtLine) 
         {
+            textLines[currentLine] = textLines[currentLine].Trim();
             if (textLines[currentLine] == "<wait>") {
                 wait = true;
             }

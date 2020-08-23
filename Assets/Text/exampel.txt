@@ -1,8 +1,7 @@
-fsjnsdjkdsnjkdnjd
-fdsnjdndsa
+this is line one
+now wait
 <wait>
-fdsjfdsafdsa
-fdsfdsa
-<wait>
-fdsafdsangngngnjfdnksfnjdkshfdslakfdhasjkl
+now pause
+<pause>
+the end
 <end>
