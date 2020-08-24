@@ -1,7 +1,14 @@
-this is line one
-now wait
-<wait>
-now pause
-<pause>
+look at some options
+<decision>
+<option>
+<text>
+The people suffer
+<option>
+<text>
+the people prosper
+<option>
+<text>
+I suffer
+</decision>
 the end
 <end>

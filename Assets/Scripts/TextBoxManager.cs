@@ -22,7 +22,7 @@ public class TextBoxManager : MonoBehaviour
     private bool cancelTyping = false;
     private bool wait = false;
 
-    private float typeSpeed = 0.1f;
+    private float typeSpeed = 0.05f;
 
     void Start()
     {
@@ -41,15 +41,18 @@ public class TextBoxManager : MonoBehaviour
     {
         if (!isTyping && !wait && currentLine <= endAtLine) 
         {
-            textLines[currentLine] = textLines[currentLine].Trim();
-            if (textLines[currentLine] == "<wait>") {
+            string line = textLines[currentLine].Trim();
+            if (line == "<wait>") {
                 wait = true;
             }
-            else if(textLines[currentLine] == "<pause>") {
-                StartCoroutine(PauseScroll());
+            else if(line == "<pause>") {
+                StartCoroutine(PauseScroll(1.5f));
             }
-            else if(textLines[currentLine] == "<end>") {
+            else if(line == "<end>") {
                 StartCoroutine(EndScroll());
+            }
+            else if(line == "<decision>") {
+                GetOptions();
             }
             else {
                 StartCoroutine(TextScroll(textLines[currentLine]));
@@ -112,17 +115,53 @@ public class TextBoxManager : MonoBehaviour
         theText.text += '\n';
         isTyping = false;
     }
-    private IEnumerator PauseScroll() 
+    private IEnumerator PauseScroll(float time) 
     {
         isTyping = true;
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSeconds(time);
         isTyping = false;
     }
     private IEnumerator EndScroll() 
     {
-        while(!Input.GetMouseButtonDown(0)) {
+        while(!Input.GetKeyDown(KeyCode.Space)) {
             yield return null;
         }
         theText.text = "";
+        textBox.SetActive(false);
+    }
+
+    private List<Options> GetOptions() 
+    {
+        currentLine++;
+        string text = textLines[currentLine].Trim();
+        List<Options> list = new List<Options>();
+        while(text != "</decision>") {
+            Options temp = new Options();
+            text = textLines[++currentLine].Trim();
+            while (text != "<option>" && text != "</decision>") {
+                if (text == "<text>") {
+                    temp.text = textLines[++currentLine].Trim();
+                }
+                else if(text == "<effects>") {
+                    temp.effects = textLines[++currentLine].Trim();
+                }
+                else if(text == "<tags>") {
+                    temp.tags = textLines[++currentLine].Trim();
+                }
+                else if(text == "<results>") {
+                    temp.results = textLines[++currentLine].Trim();
+                }
+                else if (text == "<requirements>") {
+                    temp.requirements = textLines[++currentLine].Trim();
+                }
+                else if (text == "<next>") {
+                    temp.next = textLines[++currentLine].Trim();
+                }
+                text = textLines[++currentLine].Trim();
+            }
+            Debug.Log(temp.text);
+            list.Add(temp);
+        }
+        return list;
     }
 }
