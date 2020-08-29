@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
+//using System.Diagnostics;
 //using System.Text.RegularExpressions;
 
 public class TextBoxManager : MonoBehaviour
@@ -10,7 +12,7 @@ public class TextBoxManager : MonoBehaviour
 
     public GameObject textBox;
 
-    public Text theText;
+    //public Text theText;
 
     public TextAsset textFile;
     public string[] textLines;
@@ -22,7 +24,11 @@ public class TextBoxManager : MonoBehaviour
     private bool cancelTyping = false;
     private bool wait = false;
 
-    private float typeSpeed = 0.05f;
+    private float typeSpeed = 0.2f;
+
+    public TextMeshProUGUI theText;
+    public int totalVisibleCharacters;
+
 
     void Start()
     {
@@ -35,10 +41,12 @@ public class TextBoxManager : MonoBehaviour
         {
             endAtLine = textLines.Length - 1;
         }
+        SetText(textLines[0]);
     }
 
-    void Update()
-    {
+
+
+    void Update() {
         if (!isTyping && !wait && currentLine <= endAtLine) 
         {
             string line = textLines[currentLine].Trim();
@@ -65,36 +73,36 @@ public class TextBoxManager : MonoBehaviour
                 cancelTyping = true;
             }
         }
-        /*if (currentLine > endAtLine) {
-            textBox.SetActive(false);
-        }
-        //theText.text = textLines[currentLine];
-
-        if(Input.GetKeyDown(KeyCode.Return))
-        {
-            if(!isTyping)
-            {
-                currentLine += 1;
-
-                if (currentLine > endAtLine)
-                {
-                    textBox.SetActive(false);
-                }
-                else
-                {
-                    StartCoroutine(TextScroll(textLine[currentLine]));
-                }
-
-            }
-
-            else if(isTyping && !cancelTyping)
-            {
-                cancelTyping = true;
-            }
-        }*/
     }
 
-    private IEnumerator TextScroll (string lineofText)
+    private IEnumerator TextScroll(string line) {
+        /*int visibleCount = counter % (totalVisibleCharacters + 1);
+        theText.maxVisibleCharacters = visibleCount;
+        if(visibleCount >= totalVisibleCharacters) {
+            yield return new WaitForSeconds(typeSpeed);
+        }
+        counter += 1;*/
+        SetText(line);
+        isTyping = true;
+        cancelTyping = false;
+        while (isTyping && !cancelTyping && theText.maxVisibleCharacters <= theText.textInfo.characterCount) {
+            totalVisibleCharacters += 1;
+            theText.maxVisibleCharacters = totalVisibleCharacters;
+            yield return new WaitForSeconds(typeSpeed);
+        }
+        if (cancelTyping) {
+            theText.maxVisibleCharacters = theText.textInfo.characterCount;
+            cancelTyping = false;
+        }
+        theText.text += '\n';
+        isTyping = false;
+    }
+    private void SetText(string text) {
+        theText.text = text;
+        theText.maxVisibleCharacters = 0;
+        totalVisibleCharacters = theText.textInfo.characterCount;
+    }
+    /*private IEnumerator TextScroll (string lineofText)
     {
         int letter = 0;
         isTyping = true;
@@ -114,7 +122,7 @@ public class TextBoxManager : MonoBehaviour
         }
         theText.text += '\n';
         isTyping = false;
-    }
+    }*/
     private IEnumerator PauseScroll(float time) 
     {
         isTyping = true;
