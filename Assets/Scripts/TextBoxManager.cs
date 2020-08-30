@@ -9,9 +9,8 @@ using TMPro;
 
 public class TextBoxManager : MonoBehaviour
 {
-    
+
     public GameObject textBox;
-    public Button buttonPrefab;
 
     //public Text theText;
 
@@ -61,13 +60,7 @@ public class TextBoxManager : MonoBehaviour
                 StartCoroutine(EndScroll());
             }
             else if(line == "<decision>") {
-                List<Options> options = GetOptions();
-                Button a = Instantiate<Button>(buttonPrefab);
-                Button b = Instantiate<Button>(buttonPrefab);
-                a.GetComponent<Text>().text = options[0].text;
-                a.transform.SetParent(textBox.transform.parent);
-                b.GetComponent<Text>().text = options[1].text;
-                b.transform.SetParent(textBox.transform.parent);
+                GetOptions();
             }
             else {
                 StartCoroutine(TextScroll(textLines[currentLine]));
