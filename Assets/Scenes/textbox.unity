@@ -295,7 +295,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textBox: {fileID: 124376040}
-  buttonPrefab: {fileID: 2626477128006571719, guid: 814cd40d81ea23244ba37af632f3f837, type: 3}
+  buttonPrefab: {fileID: 6498752320808423758, guid: ea156bd69bef5ac40ae889ad2d715a91, type: 3}
   textFile: {fileID: 4900000, guid: 446b2d8434100456994f06601f3a2190, type: 3}
   textLines: []
   theText: {fileID: 2079481940}

@@ -11,6 +11,7 @@ public class TextBoxManager : MonoBehaviour
 {
 
     public GameObject textBox;
+    public Button buttonPrefab;
 
     //public Text theText;
 
