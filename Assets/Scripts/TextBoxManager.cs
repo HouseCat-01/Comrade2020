@@ -43,22 +43,27 @@ public class TextBoxManager : MonoBehaviour
         {
             endAtLine = textLines.Length - 1;
         }
+        Process();
     }
 
 
 
     void Update() {
-        if (!isTyping && !wait && !decision && currentLine <= endAtLine) {
-            Process();
-            if (Input.GetKeyDown(KeyCode.Space)) {
-                if (wait) { wait = false; }
-                else if (isTyping) {
-                    cancelTyping = true;
-                }
+        /*if (!isTyping && !wait && !decision && currentLine <= endAtLine) {
+            Process();   
+        }*/
+        if (Input.GetKeyDown(KeyCode.Space)) {
+            if (wait) { wait = false; }
+            else if (isTyping) {
+                cancelTyping = true;
             }
         }
     }
     private void Process() {
+        if(currentLine > endAtLine) {
+            return;
+        }
+
         string line = textLines[currentLine].Trim();
         if (line == "<wait>") {
             wait = true;
@@ -90,8 +95,6 @@ public class TextBoxManager : MonoBehaviour
         else {
             StartCoroutine(TextScroll(textLines[currentLine]));
         }
-        currentLine++;
-        
     }
 
     private void DecisionClick(Button button, Options option) {
@@ -103,6 +106,8 @@ public class TextBoxManager : MonoBehaviour
                 Destroy(parent.GetChild(i).gameObject);
             }
         }
+        currentLine++;
+        Process();
     }
 
     private IEnumerator TextScroll(string line) {
@@ -115,6 +120,7 @@ public class TextBoxManager : MonoBehaviour
         SetText(line);
         isTyping = true;
         cancelTyping = false;
+        totalVisibleCharacters = 0;
         while (isTyping && !cancelTyping && theText.maxVisibleCharacters <= theText.textInfo.characterCount) {
             totalVisibleCharacters += 1;
             theText.maxVisibleCharacters = totalVisibleCharacters;
@@ -126,6 +132,8 @@ public class TextBoxManager : MonoBehaviour
         }
         theText.text += '\n';
         isTyping = false;
+        currentLine++;
+        Process();
     }
     private void SetText(string text) {
         theText.text = text;
@@ -158,6 +166,8 @@ public class TextBoxManager : MonoBehaviour
         isTyping = true;
         yield return new WaitForSeconds(time);
         isTyping = false;
+        currentLine++;
+        Process();
     }
     private IEnumerator EndScroll() 
     {

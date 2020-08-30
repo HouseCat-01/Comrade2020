@@ -1,4 +1,8 @@
-Testing some text scroll
+Testing some text scroll<br>like so
+text scroll 2 longer this time?
+<pause>
+text scroll 3
+<pause>
 look at some options
 <decision>
 <option>
