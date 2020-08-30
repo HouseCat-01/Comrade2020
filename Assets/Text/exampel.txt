@@ -1,4 +1,4 @@
-holy shit bro i need to test a feature morty, morty test this feature morty please bro i need you to test this
+Testing some text scroll
 look at some options
 <decision>
 <option>

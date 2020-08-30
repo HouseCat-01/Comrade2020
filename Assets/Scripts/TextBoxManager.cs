@@ -24,8 +24,9 @@ public class TextBoxManager : MonoBehaviour
     private bool isTyping = false;
     private bool cancelTyping = false;
     private bool wait = false;
+    private bool decision = false;
 
-    private float typeSpeed = 0.05f;
+    private float typeSpeed = 0.1f;
 
     public TextMeshProUGUI theText;
     public int totalVisibleCharacters;
@@ -42,47 +43,64 @@ public class TextBoxManager : MonoBehaviour
         {
             endAtLine = textLines.Length - 1;
         }
-        SetText(textLines[0]);
     }
 
 
 
     void Update() {
-        if (!isTyping && !wait && currentLine <= endAtLine) 
-        {
-            string line = textLines[currentLine].Trim();
-            if (line == "<wait>") {
-                wait = true;
+        if (!isTyping && !wait && !decision && currentLine <= endAtLine) {
+            Process();
+            if (Input.GetKeyDown(KeyCode.Space)) {
+                if (wait) { wait = false; }
+                else if (isTyping) {
+                    cancelTyping = true;
+                }
             }
-            else if(line == "<pause>") {
-                StartCoroutine(PauseScroll(1.5f));
-            }
-            else if(line == "<end>") {
-                StartCoroutine(EndScroll());
-            }
-            else if(line == "<decision>") {
-                List<Options> options = GetOptions();
-                Button a = Instantiate<Button>(buttonPrefab);
-                Button b = Instantiate<Button>(buttonPrefab);
-                a.GetComponentInChildren<TextMeshProUGUI>().text = options[0].text;
-                a.transform.SetParent(textBox.transform.parent);
-                b.GetComponentInChildren<TextMeshProUGUI>().text = options[1].text;
-                b.transform.SetParent(textBox.transform.parent);
-
-                a.transform.localPosition = new Vector2(0, 100);
-                b.transform.localPosition = new Vector2(0, -50);
-
-                wait = true;
-            }
-            else {
-                StartCoroutine(TextScroll(textLines[currentLine]));
-            }
-            currentLine++;
         }
-        if(Input.GetKeyDown(KeyCode.Space)) {
-            if (wait) { wait = false; }
-            else if(isTyping) {
-                cancelTyping = true;
+    }
+    private void Process() {
+        string line = textLines[currentLine].Trim();
+        if (line == "<wait>") {
+            wait = true;
+        }
+        else if (line == "<pause>") {
+            StartCoroutine(PauseScroll(1.5f));
+        }
+        else if (line == "<end>") {
+            StartCoroutine(EndScroll());
+        }
+        else if (line == "<decision>") {
+            List<Options> options = GetOptions();
+            Button a = Instantiate<Button>(buttonPrefab);
+            Button b = Instantiate<Button>(buttonPrefab);
+            a.GetComponentInChildren<TextMeshProUGUI>().text = options[0].text;
+            a.transform.SetParent(textBox.transform.parent);
+            
+            b.GetComponentInChildren<TextMeshProUGUI>().text = options[1].text;
+            b.transform.SetParent(textBox.transform.parent);
+
+            a.transform.localPosition = new Vector2(0, 100);
+            b.transform.localPosition = new Vector2(0, -50);
+
+            decision = true;
+
+            a.onClick.AddListener(() => DecisionClick(a, options[0]));
+            b.onClick.AddListener(() => DecisionClick(b, options[1]));
+        }
+        else {
+            StartCoroutine(TextScroll(textLines[currentLine]));
+        }
+        currentLine++;
+        
+    }
+
+    private void DecisionClick(Button button, Options option) {
+        Debug.Log("added option" + option.text);
+        decision = false;
+        Transform parent = button.transform.parent;
+        for(int i = parent.childCount-1; i >= 0; i--) {
+            if (parent.GetChild(i).GetComponent<Button>() is Button) {
+                Destroy(parent.GetChild(i).gameObject);
             }
         }
     }
