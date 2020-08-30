@@ -10,7 +10,7 @@ public class ResourceManager : MonoBehaviour
     public static UIManager uiTracker;
 
     //tags
-    public static List<Tag> tags = new List<Tag>();
+    public static List<Modifier> modifiers = new List<Modifier>();
 
     //basic stats
     private static int unity = 100;
@@ -102,8 +102,8 @@ public class ResourceManager : MonoBehaviour
         return machinery;
     }
 
-    public enum Tag
+    /*public enum Tag
     {
-        embraced_nep, rejected_nep, peasant_revolt, green_army
-    }
+        embraced_nep, rejected_nep, peasant_revolt, green_army, extreme_housing_shortage, housing_shortage
+    }*/
 }
