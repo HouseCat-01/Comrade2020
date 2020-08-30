@@ -64,9 +64,9 @@ public class TextBoxManager : MonoBehaviour
                 List<Options> options = GetOptions();
                 Button a = Instantiate<Button>(buttonPrefab);
                 Button b = Instantiate<Button>(buttonPrefab);
-                a.GetComponent<Text>().text = options[0].text;
+                a.GetComponentInChildren<TextMeshProUGUI>().text = options[0].text;
                 a.transform.SetParent(textBox.transform.parent);
-                b.GetComponent<Text>().text = options[1].text;
+                b.GetComponentInChildren<TextMeshProUGUI>().text = options[1].text;
                 b.transform.SetParent(textBox.transform.parent);
             }
             else {
