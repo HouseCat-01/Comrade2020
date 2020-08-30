@@ -60,7 +60,13 @@ public class TextBoxManager : MonoBehaviour
                 StartCoroutine(EndScroll());
             }
             else if(line == "<decision>") {
-                GetOptions();
+                List<Options> options = GetOptions();
+                Button a = Instantiate<Button>(buttonPrefab);
+                Button b = Instantiate<Button>(buttonPrefab);
+                a.GetComponentInChildren<TextMeshProUGUI>().text = options[0].text;
+                a.transform.SetParent(textBox.transform.parent);
+                b.GetComponentInChildren<TextMeshProUGUI>().text = options[1].text;
+                b.transform.SetParent(textBox.transform.parent);
             }
             else {
                 StartCoroutine(TextScroll(textLines[currentLine]));
