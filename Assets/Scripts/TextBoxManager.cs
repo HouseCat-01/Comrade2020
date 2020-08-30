@@ -25,7 +25,7 @@ public class TextBoxManager : MonoBehaviour
     private bool cancelTyping = false;
     private bool wait = false;
 
-    private float typeSpeed = 0.2f;
+    private float typeSpeed = 0.05f;
 
     public TextMeshProUGUI theText;
     public int totalVisibleCharacters;
@@ -68,6 +68,11 @@ public class TextBoxManager : MonoBehaviour
                 a.transform.SetParent(textBox.transform.parent);
                 b.GetComponentInChildren<TextMeshProUGUI>().text = options[1].text;
                 b.transform.SetParent(textBox.transform.parent);
+
+                a.transform.localPosition = new Vector2(0, 100);
+                b.transform.localPosition = new Vector2(0, -50);
+
+                wait = true;
             }
             else {
                 StartCoroutine(TextScroll(textLines[currentLine]));
