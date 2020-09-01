@@ -4,6 +4,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 //using System.Diagnostics;
 //using System.Text.RegularExpressions;
 
@@ -72,7 +73,7 @@ public class TextBoxManager : MonoBehaviour
             StartCoroutine(PauseScroll(1.5f));
         }
         else if (line == "<end>") {
-            StartCoroutine(EndScroll());
+            EndScroll();
         }
         else if (line == "<decision>") {
             List<Options> options = GetOptions();
@@ -98,7 +99,6 @@ public class TextBoxManager : MonoBehaviour
     }
 
     private void DecisionClick(Button button, Options option) {
-        Debug.Log("added option" + option.text);
         decision = false;
         Transform parent = button.transform.parent;
         for(int i = parent.childCount-1; i >= 0; i--) {
@@ -140,27 +140,7 @@ public class TextBoxManager : MonoBehaviour
         theText.maxVisibleCharacters = 0;
         totalVisibleCharacters = theText.textInfo.characterCount;
     }
-    /*private IEnumerator TextScroll (string lineofText)
-    {
-        int letter = 0;
-        isTyping = true;
-        cancelTyping = false;
-        while (isTyping && !cancelTyping) 
-        {
-            if (letter >= lineofText.Length) {
-                break;
-            }
-            theText.text += lineofText[letter];
-            letter++;    
-            yield return new WaitForSeconds(typeSpeed);
-        }
-        if(cancelTyping) {
-            theText.text += lineofText.Substring(letter);
-            cancelTyping = false;
-        }
-        theText.text += '\n';
-        isTyping = false;
-    }*/
+
     private IEnumerator PauseScroll(float time) 
     {
         isTyping = true;
@@ -169,13 +149,28 @@ public class TextBoxManager : MonoBehaviour
         currentLine++;
         Process();
     }
-    private IEnumerator EndScroll() 
+    private void EndScroll() 
     {
-        while(!Input.GetKeyDown(KeyCode.Space)) {
+        /*while(!Input.GetKeyDown(KeyCode.Space)) {
             yield return null;
         }
         theText.text = "";
         textBox.SetActive(false);
+        */
+        Button a = Instantiate<Button>(buttonPrefab);
+        a.GetComponentInChildren<TextMeshProUGUI>().text = "End Dialogue";
+        a.transform.SetParent(textBox.transform.parent);
+
+        a.transform.localPosition = new Vector2(0, 100);
+
+        decision = true;
+
+        a.onClick.AddListener(() => EndDialogue());
+    }
+
+    private void EndDialogue() {
+        SceneManager.LoadSceneAsync(1);
+        SceneManager.UnloadSceneAsync(2);
     }
 
     private List<Options> GetOptions() 
@@ -212,4 +207,25 @@ public class TextBoxManager : MonoBehaviour
         }
         return list;
     }
+    /*private IEnumerator TextScroll (string lineofText)
+{
+    int letter = 0;
+    isTyping = true;
+    cancelTyping = false;
+    while (isTyping && !cancelTyping) 
+    {
+        if (letter >= lineofText.Length) {
+            break;
+        }
+        theText.text += lineofText[letter];
+        letter++;    
+        yield return new WaitForSeconds(typeSpeed);
+    }
+    if(cancelTyping) {
+        theText.text += lineofText.Substring(letter);
+        cancelTyping = false;
+    }
+    theText.text += '\n';
+    isTyping = false;
+}*/
 }

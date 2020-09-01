@@ -14,14 +14,18 @@ public class UIManager : MonoBehaviour
     public Text materialsText;
     public Text machineryText;
 
+    private void Start() {
+        UpdateText();
+    }
+
     public void UpdateText() {
         unityText.text = "Unity:" + ResourceManager.GetUnity();
-        trustText.text = "Trust:" + ResourceManager.GetUnity();
-        unrestText.text = "Unrest:" + ResourceManager.GetUnity();
+        trustText.text = "Trust:" + ResourceManager.GetTrust();
+        unrestText.text = "Unrest:" + ResourceManager.GetUnrest();
 
-        populationText.text = "Population:" + ResourceManager.GetUnity();
-        foodText.text = "Food:" + ResourceManager.GetUnity();
-        materialsText.text = "Materials:" + ResourceManager.GetUnity();
-        machineryText.text = "Machinery:" + ResourceManager.GetUnity();
+        populationText.text = "Population:" + ResourceManager.GetPopulation();
+        foodText.text = "Food:" + ResourceManager.GetFood();
+        materialsText.text = "Materials:" + ResourceManager.GetMaterials();
+        machineryText.text = "Machinery:" + ResourceManager.GetMachinery();
     }
 }

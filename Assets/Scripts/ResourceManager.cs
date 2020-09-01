@@ -53,7 +53,7 @@ public class ResourceManager : MonoBehaviour
         SetUnrest(num + trust);
     }
     public static void SetUnrest(int num) {
-        unity = num;
+        unrest = num;
         uiTracker.UpdateText();
     }
     public static int GetUnrest() {
