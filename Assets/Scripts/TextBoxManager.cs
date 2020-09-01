@@ -77,46 +77,42 @@ public class TextBoxManager : MonoBehaviour
         }
         else if (line == "<decision>") {
             List<Options> options = GetOptions();
-            Button a = Instantiate<Button>(buttonPrefab);
-            Button b = Instantiate<Button>(buttonPrefab);
-            a.GetComponentInChildren<TextMeshProUGUI>().text = options[0].text;
-            a.transform.SetParent(textBox.transform.parent);
-            
-            b.GetComponentInChildren<TextMeshProUGUI>().text = options[1].text;
-            b.transform.SetParent(textBox.transform.parent);
-
-            a.transform.localPosition = new Vector2(0, 100);
-            b.transform.localPosition = new Vector2(0, -50);
-
+            List<Button> buttons = new List<Button>();
+            RectTransform parent = textBox.transform.parent.gameObject.GetComponent<RectTransform>();
+            float min = 0;
+            float delta = 0.5f / options.Count;
+            for (int i = 0; i < options.Count; i++) {
+                Button button = Instantiate(buttonPrefab);
+                button.transform.SetParent(textBox.transform.parent);
+                RectTransform transform = button.GetComponent<RectTransform>();
+                transform.anchorMin = new Vector2(0, min);
+                transform.anchorMax = new Vector2(1, min += delta);
+                transform.offsetMin = new Vector2(0, 0);
+                transform.offsetMax = new Vector2(0, 0);
+                button.GetComponentInChildren<TextMeshProUGUI>().text = options[i].text;
+                button.onClick.AddListener(() => DecisionClick(buttons, options, i));
+                Debug.Log("added " + options[i].text + " button");
+                buttons.Add(button);
+            }
             decision = true;
-
-            a.onClick.AddListener(() => DecisionClick(a, options[0]));
-            b.onClick.AddListener(() => DecisionClick(b, options[1]));
         }
         else {
             StartCoroutine(TextScroll(textLines[currentLine]));
         }
     }
 
-    private void DecisionClick(Button button, Options option) {
+    private void DecisionClick(List<Button> buttons, List<Options> options, int index) {
+        //Debug.Log(options[index].text);
+        //Debug.Log(buttons[index].GetComponent<Text>().text);
         decision = false;
-        Transform parent = button.transform.parent;
-        for(int i = parent.childCount-1; i >= 0; i--) {
-            if (parent.GetChild(i).GetComponent<Button>() is Button) {
-                Destroy(parent.GetChild(i).gameObject);
-            }
+        for (int i = 0; i < buttons.Count; i++) {
+            Destroy(buttons[i].gameObject);
         }
         currentLine++;
         Process();
     }
 
     private IEnumerator TextScroll(string line) {
-        /*int visibleCount = counter % (totalVisibleCharacters + 1);
-        theText.maxVisibleCharacters = visibleCount;
-        if(visibleCount >= totalVisibleCharacters) {
-            yield return new WaitForSeconds(typeSpeed);
-        }
-        counter += 1;*/
         SetText(line);
         isTyping = true;
         cancelTyping = false;
@@ -151,17 +147,12 @@ public class TextBoxManager : MonoBehaviour
     }
     private void EndScroll() 
     {
-        /*while(!Input.GetKeyDown(KeyCode.Space)) {
-            yield return null;
-        }
-        theText.text = "";
-        textBox.SetActive(false);
-        */
         Button a = Instantiate<Button>(buttonPrefab);
         a.GetComponentInChildren<TextMeshProUGUI>().text = "End Dialogue";
         a.transform.SetParent(textBox.transform.parent);
-
-        a.transform.localPosition = new Vector2(0, 100);
+        a.GetComponent<RectTransform>().offsetMin = new Vector2(0, 0);
+        a.GetComponent<RectTransform>().offsetMax = new Vector2(0, 0);
+        //a.transform.localPosition = new Vector2(0, 100);
 
         decision = true;
 
@@ -202,7 +193,6 @@ public class TextBoxManager : MonoBehaviour
                 }
                 text = textLines[++currentLine].Trim();
             }
-            Debug.Log(temp.text);
             list.Add(temp);
         }
         return list;

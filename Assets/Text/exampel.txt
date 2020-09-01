@@ -1,8 +1,4 @@
-Testing some text scroll<br>like so
-text scroll 2 longer this time?
-<pause>
-text scroll 3
-<pause>
+text scroll
 look at some options
 <decision>
 <option>
@@ -14,6 +10,9 @@ the people prosper
 <option>
 <text>
 I suffer
+<option>
+<text>
+we all suffer
 </decision>
 the end
 <end>
