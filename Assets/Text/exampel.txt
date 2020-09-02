@@ -4,15 +4,23 @@ look at some options
 <option>
 <text>
 The people suffer
+<effects>
+food=+5; unrest=+1
 <option>
 <text>
 the people prosper
+<effects>
+unrest=-1
 <option>
 <text>
 I suffer
+<effects>
+unity=-5
 <option>
 <text>
 we all suffer
+<effects>
+unity=+5;unrest=+1
 </decision>
 the end
 <end>

@@ -10,7 +10,7 @@ public class ResourceManager : MonoBehaviour
     public static UIManager uiTracker;
 
     //tags
-    public static List<Tag> tags = new List<Tag>();
+    //public static List<Tag> tags = new List<Tag>();
 
     //basic stats
     private static int unity = 100;
@@ -23,6 +23,8 @@ public class ResourceManager : MonoBehaviour
     private static int materials = 4;
     private static int machinery = 0;
 
+    private static bool delegated = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -34,7 +36,7 @@ public class ResourceManager : MonoBehaviour
     }
     public static void SetUnity(int num) {
         unity = num;
-        uiTracker.UpdateText();
+        DelegateUpdate();
     }
     public static int GetUnity() {
         return unity;
@@ -44,7 +46,7 @@ public class ResourceManager : MonoBehaviour
     }
     public static void SetTrust(int num) {
         trust = num;
-        uiTracker.UpdateText();
+        DelegateUpdate();
     }
     public static int GetTrust() {
         return trust;
@@ -54,7 +56,7 @@ public class ResourceManager : MonoBehaviour
     }
     public static void SetUnrest(int num) {
         unrest = num;
-        uiTracker.UpdateText();
+        DelegateUpdate();
     }
     public static int GetUnrest() {
         return unrest;
@@ -66,7 +68,7 @@ public class ResourceManager : MonoBehaviour
     }
     public static void SetPopulation(int pop) {
         population = pop;
-        uiTracker.UpdateText();
+        DelegateUpdate();
     }
     public static int GetPopulation() {
         return population;
@@ -76,7 +78,7 @@ public class ResourceManager : MonoBehaviour
     }
     public static void SetFood(int num) {
         food = num;
-        uiTracker.UpdateText();
+        DelegateUpdate();
     }
     public static int GetFood() {
         return food;
@@ -86,7 +88,7 @@ public class ResourceManager : MonoBehaviour
     }
     public static void SetMaterials(int num) {
         materials = num;
-        uiTracker.UpdateText();
+        DelegateUpdate();
     }
     public static int GetMaterials() {
         return materials;
@@ -96,14 +98,24 @@ public class ResourceManager : MonoBehaviour
     }
     public static void SetMachinery(int num) {
         machinery = num;
-        uiTracker.UpdateText();
+        DelegateUpdate();
     }
     public static int GetMachinery() {
         return machinery;
     }
 
-    public enum Tag
+    public static void DelegateUpdate() {
+        if(!uiTracker) {
+            delegated = true;
+        }
+        else {
+            uiTracker.UpdateText();
+            delegated = false;
+        }
+    }
+
+    /*public enum Tag
     {
         embraced_nep, rejected_nep, peasant_revolt, green_army
-    }
+    }*/
 }

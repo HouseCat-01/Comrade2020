@@ -90,9 +90,10 @@ public class TextBoxManager : MonoBehaviour
                 transform.offsetMin = new Vector2(0, 0);
                 transform.offsetMax = new Vector2(0, 0);
                 button.GetComponentInChildren<TextMeshProUGUI>().text = options[i].text;
-                button.onClick.AddListener(() => DecisionClick(buttons, options, i));
-                Debug.Log("added " + options[i].text + " button");
+                int temp = i;
+                button.onClick.AddListener(() => DecisionClick(buttons, options[temp]));
                 buttons.Add(button);
+                Debug.Log("buttons: " + buttons.Count + ", options: " + options.Count + ", index: " + i);
             }
             decision = true;
         }
@@ -101,13 +102,15 @@ public class TextBoxManager : MonoBehaviour
         }
     }
 
-    private void DecisionClick(List<Button> buttons, List<Options> options, int index) {
+    private void DecisionClick(List<Button> buttons, Options option) {
         //Debug.Log(options[index].text);
         //Debug.Log(buttons[index].GetComponent<Text>().text);
+        //Debug.Log("buttons: " + buttons.Count + ", options: " + options.Count + ", index: " + index);
         decision = false;
         for (int i = 0; i < buttons.Count; i++) {
             Destroy(buttons[i].gameObject);
         }
+        option.ParseEffects();
         currentLine++;
         Process();
     }
@@ -160,7 +163,7 @@ public class TextBoxManager : MonoBehaviour
     }
 
     private void EndDialogue() {
-        SceneManager.LoadSceneAsync(1);
+        SceneManager.LoadScene(1);
         SceneManager.UnloadSceneAsync(2);
     }
 
@@ -180,7 +183,7 @@ public class TextBoxManager : MonoBehaviour
                     temp.effects = textLines[++currentLine].Trim();
                 }
                 else if(text == "<tags>") {
-                    temp.tags = textLines[++currentLine].Trim();
+                    temp.modifiers = textLines[++currentLine].Trim();
                 }
                 else if(text == "<results>") {
                     temp.results = textLines[++currentLine].Trim();
