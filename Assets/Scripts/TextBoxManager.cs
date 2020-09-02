@@ -163,8 +163,7 @@ public class TextBoxManager : MonoBehaviour
     }
 
     private void EndDialogue() {
-        SceneManager.LoadScene(1);
-        SceneManager.UnloadSceneAsync(2);
+        SceneManager.LoadSceneAsync(1);
     }
 
     private List<Options> GetOptions() 
