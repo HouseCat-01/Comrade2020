@@ -5,7 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class TextTest : MonoBehaviour
 {
-
     public void UnityTest() {
         ResourceManager.AddUnity(-10);
     }

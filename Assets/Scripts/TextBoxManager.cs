@@ -25,7 +25,7 @@ public class TextBoxManager : MonoBehaviour
     private bool isTyping = false;
     private bool cancelTyping = false;
     private bool wait = false;
-    private bool decision = false;
+    //private bool decision = false;
 
     private float typeSpeed = 0.1f;
 
@@ -93,9 +93,8 @@ public class TextBoxManager : MonoBehaviour
                 int temp = i;
                 button.onClick.AddListener(() => DecisionClick(buttons, options[temp]));
                 buttons.Add(button);
-                Debug.Log("buttons: " + buttons.Count + ", options: " + options.Count + ", index: " + i);
             }
-            decision = true;
+            //decision = true;
         }
         else {
             StartCoroutine(TextScroll(textLines[currentLine]));
@@ -106,7 +105,7 @@ public class TextBoxManager : MonoBehaviour
         //Debug.Log(options[index].text);
         //Debug.Log(buttons[index].GetComponent<Text>().text);
         //Debug.Log("buttons: " + buttons.Count + ", options: " + options.Count + ", index: " + index);
-        decision = false;
+        //decision = false;
         for (int i = 0; i < buttons.Count; i++) {
             Destroy(buttons[i].gameObject);
         }
@@ -157,7 +156,7 @@ public class TextBoxManager : MonoBehaviour
         a.GetComponent<RectTransform>().offsetMax = new Vector2(0, 0);
         //a.transform.localPosition = new Vector2(0, 100);
 
-        decision = true;
+        //decision = true;
 
         a.onClick.AddListener(() => EndDialogue());
     }
