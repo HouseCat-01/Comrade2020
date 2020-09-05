@@ -10,8 +10,8 @@ using UnityEngine.SceneManagement;
 
 public class TextBoxManager : MonoBehaviour
 {
-
     public GameObject textBox;
+
     public Button buttonPrefab;
 
     //public Text theText;
@@ -30,6 +30,7 @@ public class TextBoxManager : MonoBehaviour
     private float typeSpeed = 0.1f;
 
     public TextMeshProUGUI theText;
+    public TextMeshProUGUI theSpeaker;
     public int totalVisibleCharacters;
 
 
@@ -53,7 +54,7 @@ public class TextBoxManager : MonoBehaviour
         /*if (!isTyping && !wait && !decision && currentLine <= endAtLine) {
             Process();   
         }*/
-        if (Input.GetKeyDown(KeyCode.Space)) {
+        if (Input.GetMouseButtonUp(0)) {
             if (wait) { wait = false; }
             else if (isTyping) {
                 cancelTyping = true;
@@ -61,10 +62,9 @@ public class TextBoxManager : MonoBehaviour
         }
     }
     private void Process() {
-        if(currentLine > endAtLine) {
+        if (currentLine > endAtLine) {
             return;
         }
-
         string line = textLines[currentLine].Trim();
         if (line == "<wait>") {
             wait = true;
@@ -74,6 +74,11 @@ public class TextBoxManager : MonoBehaviour
         }
         else if (line == "<end>") {
             EndScroll();
+        }
+        else if(line == "<speaker>") {
+            theSpeaker.text = textLines[++currentLine];
+            currentLine++;
+            Process();
         }
         else if (line == "<decision>") {
             List<Options> options = GetOptions();

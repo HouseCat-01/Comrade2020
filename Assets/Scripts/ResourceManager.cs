@@ -190,6 +190,7 @@ public class ResourceManager : MonoBehaviour
         AddFood(foodIncome);
         AddMaterials(materialsIncome);
         AddMachinery(machineryIncome);
+        AddUnrest(unrestChange);
         foreach(Modifier modifier in modifiers) {
             if(!modifier.CheckRequirements()) {
                 modifier.OnRemove();

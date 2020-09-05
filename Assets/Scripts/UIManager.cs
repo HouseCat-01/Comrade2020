@@ -21,7 +21,7 @@ public class UIManager : MonoBehaviour
     public void UpdateText() {
         unityText.text = "Unity:" + ResourceManager.GetUnity();
         trustText.text = "Trust:" + ResourceManager.GetTrust();
-        unrestText.text = "Unrest:" + ResourceManager.GetUnrest();
+        unrestText.text = "Unrest:" + ResourceManager.GetUnrest() + "(" + ResourceManager.GetUnrestChange().ToString("+0;-#") + ")";
 
         populationText.text = "Population:" + ResourceManager.GetPopulation();
         foodText.text = "Food:" + ResourceManager.GetFood() + "(" + ResourceManager.GetFoodIncome().ToString("+0;-#") + ")";
