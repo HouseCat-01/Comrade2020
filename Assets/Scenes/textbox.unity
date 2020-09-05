@@ -341,7 +341,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textBox: {fileID: 124376040}
   buttonPrefab: {fileID: 2937987727049460235, guid: ea156bd69bef5ac40ae889ad2d715a91, type: 3}
-  textFile: {fileID: 4900000, guid: 446b2d8434100456994f06601f3a2190, type: 3}
+  textFiles:
+  - {fileID: 4900000, guid: 976dd21f947eb4c4ab64ba3ef8ead9ce, type: 3}
+  - {fileID: 4900000, guid: 808271672a3fbd2479e3604f715923c3, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   textLines: []
   theText: {fileID: 2079481940}
   theSpeaker: {fileID: 1760953005}

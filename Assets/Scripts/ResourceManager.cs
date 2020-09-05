@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEditor.Build.Content;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class ResourceManager : MonoBehaviour
@@ -13,7 +14,7 @@ public class ResourceManager : MonoBehaviour
     public static List<Modifier> modifiers = new List<Modifier>();
 
     //date
-    private static int turn = 1;
+    public static int turn = 1;
     private static int month = 9;
     private static int year = 1920;
 
@@ -180,6 +181,7 @@ public class ResourceManager : MonoBehaviour
         return year;
     }
     public static void NextTurn() {
+        turn++;
         if (month == 12) {
             month = 1;
             year++;
@@ -197,12 +199,19 @@ public class ResourceManager : MonoBehaviour
                 modifiers.Remove(modifier);
             }
         }
+        SceneManager.LoadSceneAsync(2);
     }
 
     public static void AddModifier(Modifier modifier) {
         if(!HasModifier(modifier)) {
             modifiers.Add(modifier);
             modifier.OnAdd();
+        }
+    }
+
+    public static void AddModifiers(List<Modifier> newModifiers) {
+        foreach(Modifier modifier in newModifiers) {
+            AddModifier(modifier);
         }
     }
 

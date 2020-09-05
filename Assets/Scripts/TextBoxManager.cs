@@ -16,11 +16,12 @@ public class TextBoxManager : MonoBehaviour
 
     //public Text theText;
 
-    public TextAsset textFile;
+    public TextAsset[] textFiles = new TextAsset[12];
+    private static int currentFile = 0;
+
     public string[] textLines;
 
     private int currentLine;
-    private int endAtLine;
 
     private bool isTyping = false;
     private bool cancelTyping = false;
@@ -37,13 +38,9 @@ public class TextBoxManager : MonoBehaviour
     void Start()
     {
         theText.text = "";
-        if(textFile != null)
+        if(textFiles[currentFile] != null)
         { 
-            textLines = textFile.text.Split('\n');
-        }
-        if(endAtLine == 0)
-        {
-            endAtLine = textLines.Length - 1;
+            textLines = textFiles[currentFile].text.Split('\n');
         }
         Process();
     }
@@ -54,7 +51,7 @@ public class TextBoxManager : MonoBehaviour
         /*if (!isTyping && !wait && !decision && currentLine <= endAtLine) {
             Process();   
         }*/
-        if (Input.GetMouseButtonUp(0)) {
+        if (Input.GetMouseButtonDown(0)) {
             if (wait) { wait = false; }
             else if (isTyping) {
                 cancelTyping = true;
@@ -62,7 +59,8 @@ public class TextBoxManager : MonoBehaviour
         }
     }
     private void Process() {
-        if (currentLine > endAtLine) {
+        if (currentLine >= textLines.Length) {
+            EndScroll();
             return;
         }
         string line = textLines[currentLine].Trim();
@@ -74,6 +72,16 @@ public class TextBoxManager : MonoBehaviour
         }
         else if (line == "<end>") {
             EndScroll();
+        }
+        else if (line == "<goto>") {
+            string search = textLines[++currentLine].Trim();
+            for (int i = currentLine + 1; i < textLines.Length; i++) {
+                if (search == textLines[i].Trim()) {
+                    currentLine = i + 1;
+                    Process();
+                    return;
+                }
+            }
         }
         else if(line == "<speaker>") {
             theSpeaker.text = textLines[++currentLine];
@@ -115,7 +123,22 @@ public class TextBoxManager : MonoBehaviour
             Destroy(buttons[i].gameObject);
         }
         option.ParseEffects();
-        currentLine++;
+        if (option.modifiers.Count > 0) {
+            ResourceManager.AddModifiers(option.modifiers);
+        }
+        if (option.next != "") {
+            string search = option.next.Trim();
+            for (int i = currentLine + 1; i < textLines.Length; i++) {
+                if (search == textLines[i].Trim()) {
+                    currentLine = i + 1;
+                    Process();
+                    return;
+                }
+            }
+        }
+        else {
+            currentLine++;
+        }
         Process();
     }
 
@@ -162,6 +185,7 @@ public class TextBoxManager : MonoBehaviour
         //a.transform.localPosition = new Vector2(0, 100);
 
         //decision = true;
+        currentFile++;
 
         a.onClick.AddListener(() => EndDialogue());
     }
@@ -186,7 +210,7 @@ public class TextBoxManager : MonoBehaviour
                     temp.effects = textLines[++currentLine].Trim();
                 }
                 else if(text == "<modifiers>") {
-                    temp.modifiers = textLines[++currentLine].Trim();
+                    temp.modifiers = ModifierTracker.GetModifiers(textLines[++currentLine].Trim().Split(';'));
                 }
                 else if(text == "<results>") {
                     temp.results = textLines[++currentLine].Trim();
@@ -194,7 +218,7 @@ public class TextBoxManager : MonoBehaviour
                 else if (text == "<requirements>") {
                     temp.requirements = textLines[++currentLine].Trim();
                 }
-                else if (text == "<next>") {
+                else if (text == "<next>") { 
                     temp.next = textLines[++currentLine].Trim();
                 }
                 text = textLines[++currentLine].Trim();

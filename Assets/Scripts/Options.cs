@@ -7,7 +7,7 @@ public class Options
 {
     public string text = "";
     public string effects = "";
-    public string modifiers = "";
+    public List<Modifier> modifiers = new List<Modifier>();
     public string results = "";
     public string requirements = "";
     public string costs = "";

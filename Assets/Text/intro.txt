@@ -1,0 +1,19 @@
+﻿<speaker>
+?̸͚̤͊̅̾͗?̸̰̰̞̰͙̓̇̀?̶͔̪͋̄̈́̚̕?̵͓͇̏?̸̳͉̪̔̓̅?̶̞̤͈̰̙͇̀
+Oh hey, you're finally <color="yellow">awake</color><br>I was worried about you, the border can be tricky sometimes
+<decision>
+<option>
+<text>
+What?
+<next>
+[result 1]
+</decision>
+<speaker>
+ ?̸͚̤͊̅̾͗?̸̰̰̞̰͙̓̇̀?̶͔̪͋̄̈́̚̕?̵͓͇̏?̸̳͉̪̔̓̅?̶̞̤͈̰̙͇̀
+You've got a lot of <color="red">work</color> ahead of you
+<speaker>
+???
+[result 1]
+skipped
+
+
