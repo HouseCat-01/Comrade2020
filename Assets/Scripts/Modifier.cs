@@ -34,60 +34,8 @@ public class Modifier
     }
 
     public void OnAdd() {
-        string[] list = effects.Split(';');
-        for (int i = 0; i < list.Length; i++) {
-            string[] effect = list[i].Trim().Split('=');
-            switch (effect[0]) {
-                case "unity":
-                    ResourceManager.AddUnity(int.Parse(effect[1], NumberStyles.AllowLeadingSign));
-                    break;
-                case "trust":
-                    ResourceManager.AddTrust(int.Parse(effect[1], NumberStyles.AllowLeadingSign));
-                    break;
-                case "unrest":
-                    ResourceManager.AddUnrest(int.Parse(effect[1], NumberStyles.AllowLeadingSign));
-                    break;
-                case "population":
-                    ResourceManager.AddPopulation(int.Parse(effect[1], NumberStyles.AllowLeadingSign));
-                    break;
-                case "food":
-                    ResourceManager.AddFood(int.Parse(effect[1], NumberStyles.AllowLeadingSign));
-                    break;
-                case "materials":
-                    ResourceManager.AddMaterials(int.Parse(effect[1], NumberStyles.AllowLeadingSign));
-                    break;
-                case "machinery":
-                    ResourceManager.AddMachinery(int.Parse(effect[1], NumberStyles.AllowLeadingSign));
-                    break;
-            }
-        }
-        list = onAdd.Split(';');
-        for (int i = 0; i < list.Length; i++) {
-            string[] effect = list[i].Trim().Split('=');
-            switch (effect[0]) {
-                case "unity":
-                    ResourceManager.AddUnity(int.Parse(effect[1], NumberStyles.AllowLeadingSign));
-                    break;
-                case "trust":
-                    ResourceManager.AddTrust(int.Parse(effect[1], NumberStyles.AllowLeadingSign));
-                    break;
-                case "unrest":
-                    ResourceManager.AddUnrest(int.Parse(effect[1], NumberStyles.AllowLeadingSign));
-                    break;
-                case "population":
-                    ResourceManager.AddPopulation(int.Parse(effect[1], NumberStyles.AllowLeadingSign));
-                    break;
-                case "food":
-                    ResourceManager.AddFood(int.Parse(effect[1], NumberStyles.AllowLeadingSign));
-                    break;
-                case "materials":
-                    ResourceManager.AddMaterials(int.Parse(effect[1], NumberStyles.AllowLeadingSign));
-                    break;
-                case "machinery":
-                    ResourceManager.AddMachinery(int.Parse(effect[1], NumberStyles.AllowLeadingSign));
-                    break;
-            }
-        }
+        ProcessText(onAdd);
+        ProcessText(effects);
     }
     public void OnRemove() {
         ProcessText(effects);
@@ -193,6 +141,7 @@ public class Modifier
                             break;
                     }
                     break;
+
             }
         }
         return true;
@@ -212,6 +161,9 @@ public class Modifier
                 case "unrest":
                     ResourceManager.AddUnrest(int.Parse(effect[1], NumberStyles.AllowLeadingSign));
                     break;
+                case "unrestChange":
+                    ResourceManager.AddUnrestChange(int.Parse(effect[1], NumberStyles.AllowLeadingSign));
+                    break;
                 case "population":
                     ResourceManager.AddPopulation(int.Parse(effect[1], NumberStyles.AllowLeadingSign));
                     break;
@@ -224,6 +176,16 @@ public class Modifier
                 case "machinery":
                     ResourceManager.AddMachinery(int.Parse(effect[1], NumberStyles.AllowLeadingSign));
                     break;
+                case "foodIncome":
+                    ResourceManager.AddFoodIncome(int.Parse(effect[1], NumberStyles.AllowLeadingSign));
+                    break;
+                case "materialsIncome":
+                    ResourceManager.AddMaterialsIncome(int.Parse(effect[1], NumberStyles.AllowLeadingSign));
+                    break;
+                case "machineryIncome":
+                    ResourceManager.AddMachineryIncome(int.Parse(effect[1], NumberStyles.AllowLeadingSign));
+                    break;
+                    
             }
         }
     }

@@ -22,6 +22,8 @@ public class ResourceManager : MonoBehaviour
     private static int trust = 100;
     private static int unrest = 0;
 
+    private static int unrestChange = 0;
+
     //resources
     private static int population = 30000;
     private static int food = 10;
@@ -70,6 +72,17 @@ public class ResourceManager : MonoBehaviour
     }
     public static int GetUnrest() {
         return unrest;
+    }
+    public static void AddUnrestChange(int num) {
+        SetUnrestChange(num + unrestChange);
+    }
+    public static void SetUnrestChange(int num) {
+        if (num < 0) { num = 0; }
+        unrestChange = num;
+        DelegateUpdate();
+    }
+    public static int GetUnrestChange() {
+        return unrestChange;
     }
 
     public static void AddPopulation(int pop) {
