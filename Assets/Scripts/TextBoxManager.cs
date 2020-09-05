@@ -180,7 +180,7 @@ public class TextBoxManager : MonoBehaviour
                 else if(text == "<effects>") {
                     temp.effects = textLines[++currentLine].Trim();
                 }
-                else if(text == "<tags>") {
+                else if(text == "<modifiers>") {
                     temp.modifiers = textLines[++currentLine].Trim();
                 }
                 else if(text == "<results>") {

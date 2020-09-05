@@ -10,7 +10,12 @@ public class ResourceManager : MonoBehaviour
     public static UIManager uiTracker;
 
     //tags
-    //public static List<Tag> tags = new List<Tag>();
+    public static List<Modifier> modifiers = new List<Modifier>();
+
+    //date
+    private static int turn = 1;
+    private static int month = 9;
+    private static int year = 1920;
 
     //basic stats
     private static int unity = 100;
@@ -22,6 +27,10 @@ public class ResourceManager : MonoBehaviour
     private static int food = 10;
     private static int materials = 4;
     private static int machinery = 0;
+
+    private static int foodIncome = 0;
+    private static int materialsIncome = 0;
+    private static int machineryIncome = 0;
 
     private static bool delegated = false;
 
@@ -55,6 +64,7 @@ public class ResourceManager : MonoBehaviour
         SetUnrest(num + trust);
     }
     public static void SetUnrest(int num) {
+        if (num < 0) { num = 0; }
         unrest = num;
         DelegateUpdate();
     }
@@ -62,11 +72,11 @@ public class ResourceManager : MonoBehaviour
         return unrest;
     }
 
-
     public static void AddPopulation(int pop) {
         SetPopulation(pop + population);
     }
     public static void SetPopulation(int pop) {
+        if (pop < 0) { pop = 0; }
         population = pop;
         DelegateUpdate();
     }
@@ -77,6 +87,7 @@ public class ResourceManager : MonoBehaviour
         SetFood(num + food);
     }
     public static void SetFood(int num) {
+        if (num < 0) { num = 0; }
         food = num;
         DelegateUpdate();
     }
@@ -87,6 +98,7 @@ public class ResourceManager : MonoBehaviour
         SetMaterials(num + materials);
     }
     public static void SetMaterials(int num) {
+        if (num < 0) { num = 0; }
         materials = num;
         DelegateUpdate();
     }
@@ -97,11 +109,45 @@ public class ResourceManager : MonoBehaviour
         SetMachinery(num + machinery);
     }
     public static void SetMachinery(int num) {
+        if(num<0) { num = 0; }
         machinery = num;
         DelegateUpdate();
     }
     public static int GetMachinery() {
         return machinery;
+    }
+
+    public static int GetFoodIncome() {
+        return foodIncome;
+    }
+    public static void AddFoodIncome(int num) {
+        SetFoodIncome(num + foodIncome);
+    }
+    public static void SetFoodIncome(int num) {
+        foodIncome = num;
+        DelegateUpdate();
+    }
+
+    public static int GetMaterialsIncome() {
+        return materialsIncome;
+    }
+    public static void AddMaterialsIncome(int num) {
+        SetMaterialsIncome(num + materialsIncome);
+    }
+    public static void SetMaterialsIncome(int num) {
+        materialsIncome = num;
+        DelegateUpdate();
+    }
+
+    public static int GetMachineryIncome() {
+        return machineryIncome;
+    }
+    public static void AddMachineryIncome(int num) {
+        SetMachineryIncome(num + machineryIncome);
+    }
+    public static void SetMachineryIncome(int num) {
+        machineryIncome = num;
+        DelegateUpdate();
     }
 
     public static void DelegateUpdate() {
@@ -112,6 +158,47 @@ public class ResourceManager : MonoBehaviour
             uiTracker.UpdateText();
             delegated = false;
         }
+    }
+
+    public int GetMonth() {
+        return month;
+    }
+    public int GetYear() {
+        return year;
+    }
+    public static void NextTurn() {
+        if (month == 12) {
+            month = 1;
+            year++;
+        }
+        else {
+            month++;
+        }
+        AddFood(foodIncome);
+        AddMaterials(materialsIncome);
+        AddMachinery(machineryIncome);
+        foreach(Modifier modifier in modifiers) {
+            if(!modifier.CheckRequirements()) {
+                modifier.OnRemove();
+                modifiers.Remove(modifier);
+            }
+        }
+    }
+
+    public static void AddModifier(Modifier modifier) {
+        if(!HasModifier(modifier)) {
+            modifiers.Add(modifier);
+            modifier.OnAdd();
+        }
+    }
+
+    public static bool HasModifier(Modifier other) {
+        foreach(Modifier modifier in modifiers) {
+            if(modifier.name == other.name) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /*public enum Tag

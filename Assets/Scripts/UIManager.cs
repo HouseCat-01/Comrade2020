@@ -24,8 +24,8 @@ public class UIManager : MonoBehaviour
         unrestText.text = "Unrest:" + ResourceManager.GetUnrest();
 
         populationText.text = "Population:" + ResourceManager.GetPopulation();
-        foodText.text = "Food:" + ResourceManager.GetFood();
-        materialsText.text = "Materials:" + ResourceManager.GetMaterials();
-        machineryText.text = "Machinery:" + ResourceManager.GetMachinery();
+        foodText.text = "Food:" + ResourceManager.GetFood() + "(" + ResourceManager.GetFoodIncome().ToString("+0;-#") + ")";
+        materialsText.text = "Materials:" + ResourceManager.GetMaterials() + "(" + ResourceManager.GetMaterialsIncome().ToString("+0;-#") + ")";
+        machineryText.text = "Machinery:" + ResourceManager.GetMachinery() + "(" + ResourceManager.GetMachineryIncome().ToString("+0;-#") + ")";
     }
 }
