@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Build.Content;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -199,7 +198,7 @@ public class ResourceManager : MonoBehaviour
                 modifiers.Remove(modifier);
             }
         }
-        SceneManager.LoadSceneAsync(2);
+        SceneManager.LoadSceneAsync(0);
     }
 
     public static void AddModifier(Modifier modifier) {

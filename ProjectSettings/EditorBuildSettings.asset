@@ -6,12 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
+    path: Assets/Scenes/textbox.unity
+    guid: 921736d027b3041a3882f031a53ddcea
   - enabled: 1
     path: Assets/Scenes/integration test.unity
     guid: e795fe72c2f1819409885e9255fd1578
-  - enabled: 1
-    path: Assets/Scenes/textbox.unity
-    guid: 921736d027b3041a3882f031a53ddcea
   m_configObjects: {}
